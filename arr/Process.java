@@ -27,6 +27,16 @@ public class Process {
         }
     }
 
+    public static void iniAverage(double[][] average) {
+        if (average != null) {
+            for (int i = 0; i < average.length; i++) {
+                for (int j = 0; j < average[i].length; j++) {
+                    average[i][j] = 0;
+                }
+            }
+        }
+    }
+
     public static void initStudentNames(String[][] array) {
         if (array != null) {
             for (int i = 0; i < array.length; i++) {
@@ -66,5 +76,20 @@ public class Process {
             }
         }
     }
+    public static void calculateAverage(double [][][] customers, double [][] average) {
+        double suma = 0;
 
+        if (customers.length != 0 && average.length != 0) {
+            for (int i = 0; i < customers.length; i++) {
+                for (int j = 0; j < customers[i].length; j++) {
+                    for (int k = 0; k < customers[i][j].length; k++) {
+                        suma = suma + customers[i][j][k];
+                    }
+                }
+                average [i][0] = suma;
+                average[i][1] = suma / (customers[i].length);
+                suma = 0;
+            }
+        }
+    }
 }
