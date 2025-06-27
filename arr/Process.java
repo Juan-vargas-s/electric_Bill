@@ -84,4 +84,19 @@ public class Process {
         }
     }
 
+     public static void calculatePrice(double[][][] customers, double [] cost) {
+
+        double sum;
+        if (customers.length != 0 && cost.length != 0) {
+            double cost_per_kw = (2.17/450); //costo promedio por kilowats
+            for(int x = 0; x< customers.length; x++){
+                sum = 0.0;
+                for(int y = 0; y < customers[0].length; y++){
+                    sum += customers[x][y][0];
+                }
+                cost[x] = sum*cost_per_kw;
+            }
+        }
+    }
+
 }
