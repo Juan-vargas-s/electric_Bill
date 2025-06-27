@@ -9,6 +9,7 @@ public class Main {
         String [] customersnames;
         double [][][] customers;
         double [][] average;
+        double [] cost;
         int casa = 0, months =0;
 
         //Recibimos y validamos los datos de entrada para instanciar los arreglos
@@ -20,16 +21,19 @@ public class Main {
         customersnames = new String[casa];
         customers = new double[casa][months][1];
         average = new double [casa][2];
+        cost = new double [casa];
 
         //inicializamos los arreglos
         Process.iniMatrix(customers);
         Process.fillArrays(customers, customersnames);
         Process.iniAverage(average);
+        Process.iniDouble(cost);
 
         //Cerramos instancias
         customersnames = null;
         customers = null;
         average = null;
+        cost = null;
     }
 }
 
