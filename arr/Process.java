@@ -67,4 +67,21 @@ public class Process {
         }
     }
 
+    public static void calculateAverage(double [][][] customers, double [][] average) {
+        double suma = 0;
+
+        if (customers.length != 0 && average.length != 0) {
+            for (int i = 0; i < customers.length; i++) {
+                for (int j = 0; j < customers[i].length; j++) {
+                    for (int k = 0; k < customers[i][j].length; k++) {
+                        suma = suma + customers[i][j][k];
+                    }
+                }
+                average [i][0] = suma;
+                average[i][1] = suma / (customers[i].length);
+                suma = 0;
+            }
+        }
+    }
+
 }

@@ -8,6 +8,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String [] customersnames;
         double [][][] customers;
+        double [][] average;
         int casa = 0, months =0;
 
         //Recibimos y validamos los datos de entrada para instanciar los arreglos
