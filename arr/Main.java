@@ -24,10 +24,6 @@ public class Main {
 
         customersnames = new String[casa];
         customers = new double[casa][months][1];
-        average = new double [casa][2];
-        cost = new double [casa];
-        consume = new String[2];
-        finalprice = new double [casa];
 
         Process.iniMatrix(customers);
         Process.iniAverage(average);

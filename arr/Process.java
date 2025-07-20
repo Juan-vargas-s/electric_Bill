@@ -35,6 +35,16 @@ public class Process {
         }
     }
 
+    public static void iniAverage(double[][] average) {
+        if (average != null) {
+            for (int i = 0; i < average.length; i++) {
+                for (int j = 0; j < average[i].length; j++) {
+                    average[i][j] = 0;
+                }
+            }
+        }
+    }
+
     public static void initNames(String[] array) {
         if (array != null) {
             for (int i = 0; i < array.length; i++) {
