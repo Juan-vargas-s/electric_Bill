@@ -1,7 +1,34 @@
 package Process;
+import composable.mainStoreArchive;
+import validate.Validations;
+import composable.mainStoreArchive;
+import java.io.IOException;
 public class MainProcess{
 
-    public static void Process(String customersnames[],String consume[] ,String router ,double customers[][][],double average[][],double cost[] ,double finalprice[]){
+    public static void Process(String customersnames[],String consume[] ,double customers[][][],double average[][],double cost[] ,double finalprice[]) {
+        int option = 0;
+        String text = "";
+        
+        text = "escriba que acción quiere tomar: -pagar, -tecnico ";
+        System.out.println(text);
+        option = Validations.valOption(text);
+
+       if (!(option == 0) && !(option > 2)){
+        if (option == 1) {
+           payElectricBill(customersnames, consume, customers, average, cost, finalprice);
+        }
+        else if(option == 2){
+            RepairServices.requestRepairService();
+        }
+       }
+       else{
+        text = "esa opción no existe";
+        System.out.println(text);
+       }
+    }
+
+
+    public static void payElectricBill(String customersnames[],String consume[] ,double customers[][][],double average[][],double cost[] ,double finalprice[]){
         Process.iniMatrix(customers);
         Process.iniAverage(average);
         Process.initNames(customersnames);
@@ -14,7 +41,10 @@ public class MainProcess{
         Process.calculatePrice(customers,cost);
         Process.hig_LowConsume(cost,customersnames,consume);
         Process.calculaterMunipality(cost,finalprice,customersnames);
-        Process.showBill(average,finalprice,consume,customersnames,router);
-        Process.showAverage(average,finalprice,consume);
+        try {
+            mainStoreArchive.store(customersnames, consume, customers, average, cost, finalprice);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

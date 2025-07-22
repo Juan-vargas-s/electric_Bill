@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.nio.file.Paths;
 import Process.MainProcess;
 import validate.Validations;
 
@@ -15,8 +14,6 @@ public class Main {
         double [] finalprice;
         int casa = 0, months =0;
 
-        String router = Paths.get("").toRealPath().toString()+"/arr/storage/txt/";
-        router  = Validations.utilDirectory(router)+"/"+Validations.nameArchiveGenerate()+".txt";
 
         months = Validations.valMaxvalues("Ingrese cuántos meses seran para cada casa: ", 13);
         casa = Validations.valInt("seleccione cuantas casas seran por mes: ");
@@ -29,7 +26,7 @@ public class Main {
         consume = new String[2];
         finalprice = new double [casa];
 
-        MainProcess.Process(customersnames, consume, router, customers, average, cost, finalprice);
+        MainProcess.Process(customersnames, consume, customers, average, cost , finalprice);
 
         customersnames = null;
         average = null;

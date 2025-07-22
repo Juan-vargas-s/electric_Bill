@@ -8,6 +8,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Validations {
+
+    public static class InvalidOptionException extends Exception {
+        public InvalidOptionException(String message) {
+            super(message);
+        }
+    }
    
     public static double valDouble(String text) {
         double value = 0.0;
@@ -23,6 +29,7 @@ public class Validations {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Error: [ingrese Por favor un número válido]");
+                logError("valDouble: Error: [ingrese Por favor un número válido] " + e.getMessage());
                 enter.nextLine();
             }
         }
@@ -43,6 +50,7 @@ public class Validations {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Error: [No se pueden usar caracteres]");
+                logError("valInt:Error: [No se pueden usar caracteres] " + e.getMessage());
                 enter.nextLine();
             }
         }
@@ -63,12 +71,33 @@ public class Validations {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Error: [No se aceptan caracteres]");
+                logError("valMaxvalues: Error: [No se aceptan caracteres] " + e.getMessage());
                 scanner.nextLine();
             }
         }
     }
 
-    
+    public static int valOption(String text) {
+        String option = "";
+        Scanner scanner = new Scanner(System.in);
+        String[] verify = {"pagar", "tecnico"};
+
+        while (true) {
+            option = scanner.nextLine().toLowerCase();
+            option = valSubName(option, text);
+            for (int i = 0; i < verify.length; i++) {
+                if (option.equals(verify[i])) {
+                    return i + 1;
+                }
+            }
+            try {
+                throw new InvalidOptionException("Opción inválida ingresada: " + option);
+            } catch (InvalidOptionException e) {
+                System.out.println("Error: [Ingrese una opción válida] -pagar, -tecnico");
+                logError("valOption: Error: [Ingrese una opción válida]" + e.getMessage());
+            }
+        }
+    }
 
   public static boolean valString(String text)
     {
@@ -90,6 +119,11 @@ public class Validations {
 
         while (true){
             if (!valString(name)){
+                try {
+                    throw new IllegalArgumentException("Nombre inválido: " + name);
+                } catch (IllegalArgumentException e) {
+                    logError("valSubName: Error: [Ingrese un nombre correcto] " + e.getMessage());
+                }
                 System.out.println("- Error: [Ingrese un nombre correcto]");
                 System.out.println(text);
                 name = enter.nextLine();
@@ -129,23 +163,42 @@ public class Validations {
 
     public static void useArchive(String content, String route, boolean bool)
     {
-        if (route.trim().isEmpty()) {
+        if (route == null || route.trim().isEmpty()) {
             System.out.println("Manage-Error: Ruta no existe.");
             return;
         }
+        // No escribir si el contenido es vacío o nulo
+        if (content == null || content.trim().isEmpty()) {
+            return;
+        }
+
+        // Asegura que el directorio exista
+        File file = new File(route);
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs();
+        }
 
         try (BufferedWriter addArchive = new BufferedWriter(new FileWriter(route, true))) { 
-            if (content == null || content.trim().isEmpty()) {
-                throw new IllegalArgumentException(" EL nombre del archivo es requerido. ");
-            }
-
             addArchive.write(content);  
             if (bool){
                 addArchive.newLine(); 
             }
         } catch (IOException e) {
             System.out.println("- Error al escribir en el archivo: " + e.getMessage());
-            return;
         }
+    }
+
+    public static void logError(String mensaje) {
+        String logDir = "storage/logs/"; // Ruta relativa para Windows y multiplataforma
+        // Asegura que el directorio exista
+        File dir = new File(logDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        // Genera un archivo único por error
+        String logFile = logDir + nameArchiveGenerate() + ".log";
+        String logMsg = LocalDateTime.now() + " - " + mensaje;
+        useArchive(logMsg, logFile, true);
     }
 }
