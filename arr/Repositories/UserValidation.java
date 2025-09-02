@@ -21,13 +21,13 @@ public class UserValidation {
         this.userCredentials = userCredentials;
     }
 
-    public boolean validateUser(String route) {
+    public boolean validateUser() {
         id = 0;
         if (userName == null || userName.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid username");
         }
         utilValSubName(userName, true);
-        readAndSeparateUsersAndPasswords(archiveUtil, route+"/user.txt", userCredentials);
+        readAndSeparateUsersAndPasswords(archiveUtil, "user.txt", userCredentials);
         for (int i = 0; i < userCredentials.length; i++) {
             if (userName.equals(userCredentials[i])) {
                 id = i;
@@ -55,7 +55,7 @@ public class UserValidation {
             throw new IllegalArgumentException("Invalid password");
         }
 
-        String route = "/passwords.txt";
+        String route = "passwords.txt";
         readAndSeparateUsersAndPasswords(archiveUtil, route, userCredentials);
         for (int i = 0; i < userCredentials.length; i++) {
             if (password.equals(userCredentials[i]) && id == i) {
@@ -115,7 +115,7 @@ public class UserValidation {
         return true;
     }
 
-    public void readAndSeparateUsersAndPasswords(ArchiveUtil archiveUtil, String archiveName,
+    private void readAndSeparateUsersAndPasswords(ArchiveUtil archiveUtil, String archiveName,
             String[] userCredentials) {
         Scanner scanner = archiveUtil.getArchive(archiveName);
         if (scanner == null) {
@@ -136,11 +136,27 @@ public class UserValidation {
         scanner.close();
     }
 
-    public void clearStringArray(String[] userCredentials) {
+    private void clearStringArray(String[] userCredentials) {
         for (int i = 0; i < userCredentials.length; i++) {
             userCredentials[i] = "";
         }
 
+    }
+
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setUserName(String userName){
+        this.userName = userName;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
     }
 
 }
