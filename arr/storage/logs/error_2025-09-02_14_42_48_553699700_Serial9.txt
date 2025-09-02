@@ -1,0 +1,1 @@
+2025-09-02T14:42:48.572266700 - valSubName: Error: [Ingrese un nombre correcto] Nombre inválido: 3

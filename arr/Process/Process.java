@@ -46,7 +46,7 @@ public class Process {
     }
 
 
-    public static void fillArrays(double[][][] customers, String[] customersnames) {
+    /*public static void fillArrays(double[][][] customers, String customersnames) {
     Scanner scanner = new Scanner(System.in);
     String texts = "";
         if (customers.length != 0 && customersnames.length != 0) {
@@ -62,7 +62,7 @@ public class Process {
                 }
             }
         }
-    }
+    }*/
 
     public static void calculateAverage(double [][][] customers, double [][] average) {
         double suma = 0;
@@ -81,22 +81,26 @@ public class Process {
         }
     }
 
-    public static void calculatePrice(double[][][] customers, double [] cost) {
+    public static double calculatePrice(double[][][] customers, double  cost) {
 
-        double sum;
-        if (customers.length != 0 && cost.length != 0) {
+        double sum = 0.0;
+        if (customers.length != 0) {
             double cost_per_kw = (2.17/450); //costo promedio por kilowats
             for(int x = 0; x< customers.length; x++){
                 sum = 0.0;
                 for(int y = 0; y < customers[0].length; y++){
-                    sum += customers[x][y][0];
+                    for(int z = 0; z < customers[0][0].length; z++){
+                        sum += customers[x][y][z];
+                    }
                 }
-                cost[x] = sum*cost_per_kw;
+                
             }
+            cost = sum*cost_per_kw;
         }
+        return cost;
     }
 
-    public static void hig_LowConsume(double[]cost, String[] customersnames, String[] consume) {
+   /* public static void hig_LowConsume(double[]cost, String[] customersnames, String[] consume) {
 
         int max = 0 ; int low = 0;
 
@@ -113,17 +117,18 @@ public class Process {
             consume [0] = customersnames[max];
             consume [1] = customersnames[low];
         }
-    }
+    }*/
 
-    public static void calculaterMunipality(double [] price, double [] finalPrice, String [] customernames){
+    public static void calculaterMunipality(double [] price, double [] finalPrice, String  customernames){
         int municipality =0;
         String texts = "";
         System.out.println("Seleccione un municipio de residencia:\n1.juanjosemora\n2.puertocabello\n3.sandiego\n4.valencia\n5.losguayos");
 
+        texts = "Ingrese el numero del municipio del cliente";
+        municipality = Validations.valMaxvalues(texts,6);
+
         if (price.length != 0 && finalPrice.length != 0) {
             for (int i = 0; i < price.length; i++) {
-                texts = "Ingrese el numero del municipio del cliente ["+(i+1)+"]["+customernames[i]+"]: ";
-                municipality = Validations.valMaxvalues(texts,6);
                 if (municipality == 1){
                     finalPrice [i] = price[i] + price[i] * 0.07;
                 }

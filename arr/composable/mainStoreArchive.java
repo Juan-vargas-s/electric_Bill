@@ -5,10 +5,10 @@ import java.nio.file.Paths;
 import validate.Validations;
 
 public class mainStoreArchive {
-    public static void store(String customersnames[], String consume[], double customers[][][], double average[][], double cost[] ,double finalprice[]) throws IOException{
+    public static void store(String customersnames, String consume[], double customers[][][], double average[][], double cost) throws IOException{
        String route = Paths.get("").toRealPath().toString()+"/storage/txt";
-       route  = Validations.utilDirectory(route)+"/"+Validations.nameArchiveGenerate()+".txt";
+       route  = Validations.utilDirectory(route)+"/"+Validations.nameArchiveGenerate("FacturaElectricidad")+".txt";
 
-       storeArchive.showBill(average, finalprice, consume, customersnames, route);
+       storeArchive.showBill( average, cost, consume, customersnames,route);
     }
 }
