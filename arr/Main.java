@@ -58,7 +58,7 @@ public class Main {
         //User user = new User(userName, router, userArray);*/
 
         Stadistics stadistics = new Stadistics(archiveUtil);
-        stadistics.saveTableFormatted(archiveUtil, "output.txt", 0.47);
+        stadistics.saveTableFormatted(archiveUtil, "output", 0.47);
 
         //MainProcess.Process(customersnames, consume, customers, average , finalprice);
 

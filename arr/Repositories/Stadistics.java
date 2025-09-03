@@ -110,15 +110,15 @@ public class Stadistics {
         municipalities = null;
     }
 
-    
-
     public void saveTableFormatted(ArchiveUtil archiveUtil, String outputFile, double precioPorKw) {
-        // Escribe el encabezado (sobrescribe si existe)
+        // Encabezado
         String header = String.format("%-25s%-25s%-25s%-25s%n",
-                "Nombre de Usuarios", "Municipios", "total de Kilowatts", "total a pagar por kw/h");
+                "Nombre del cliente", "Municipios", "total de Kilowatts", "total a pagar por kw/h");
         archiveUtil.setCreateArchive(header, outputFile, false);
 
         int n = Math.min(users.length, municipalities.length);
+        double sumaTotal = 0.0;
+
         for (int i = 0; i < n; i++) {
             double totalKw = 0.0;
             int filaKw = i < kilowatts.length ? i : -1;
@@ -128,10 +128,37 @@ public class Stadistics {
                 }
             }
             double totalPagar = totalKw * precioPorKw;
+            sumaTotal += totalPagar;
+
             String linea = String.format("%-25s%-25s%-25.2f%-25.2f%n",
                     users[i], municipalities[i], totalKw, totalPagar);
-            // Escribe cada línea agregando al archivo
             archiveUtil.setCreateArchive(linea, outputFile, true);
         }
+
+        // Línea separadora
+        String separador = "-----------------------------------------------------------------------------------------------------\n";
+        archiveUtil.setCreateArchive(separador, outputFile, true);
+
+        // Personas por municipio (sin Map, solo usando el arreglo)
+        archiveUtil.setCreateArchive("personas por Municipio", outputFile, true);
+
+        boolean[] contado = new boolean[municipalities.length];
+        for (int i = 0; i < municipalities.length; i++) {
+            if (!contado[i]) {
+                int count = 1;
+                for (int j = i + 1; j < municipalities.length; j++) {
+                    if (municipalities[i].equals(municipalities[j])) {
+                        count++;
+                        contado[j] = true;
+                    }
+                }
+                String linea = String.format("%-20s %d%n", municipalities[i] + ":", count);
+                archiveUtil.setCreateArchive(linea, outputFile, true);
+            }
+        }
+
+        // Total a pagar entre todos los clientes
+        String totalLine = String.format("%nTotal a pagar: %.2f%n", sumaTotal);
+        archiveUtil.setCreateArchive(totalLine, outputFile, true);
     }
 }
