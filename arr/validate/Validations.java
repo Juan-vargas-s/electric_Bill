@@ -211,19 +211,15 @@ public class Validations {
         }
     }
 
-    public static int countArchiveElements(ArchiveUtil archiveUtil, String nombreArchivo) {
-    Scanner scanner = archiveUtil.getArchive(nombreArchivo);
-    if (scanner == null) {
-        System.out.println("No se pudo abrir el archivo: " + nombreArchivo);
-        return 0;
-    }
-    if (scanner.hasNextLine()) {
-        String linea = scanner.nextLine();
-        String[] partes = linea.split(",");
-        scanner.close();
-        return partes.length;
+    public static int countArchiveElements(ArchiveUtil archiveUtil, String archivo) {
+    Scanner scanner = archiveUtil.getArchive(archivo);
+    if (scanner == null) return 0;
+    int total = 0;
+    while (scanner.hasNextLine()) {
+        String[] partes = scanner.nextLine().split(",");
+        total += partes.length;
     }
     scanner.close();
-    return 0;
-}
+    return total;
+    }
 }
