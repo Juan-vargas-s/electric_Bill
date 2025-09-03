@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import Process.MainProcess;
 import Repositories.ArchiveUtil;
+import Repositories.Stadistics;
 import Repositories.User;
 import validate.*;
 
@@ -48,17 +49,16 @@ public class Main {
         int elementsConsume = validate.Validations.countArchiveElements(archiveUtil, "kilowatts.txt");
         consume = new double[elementsConsume];
 
-        String text = "Ingrese su nombre de usuario : ";
+        /*String text = "Ingrese su nombre de usuario : ";
         System.out.println(text);
         String userName = enter.next();
 
-        userName = validate.Validations.valSubName(userName,text);
+        //userName = validate.Validations.valSubName(userName,text);
 
-        System.out.println(userName);
-        User user = new User(userName, router, userArray);
+        //User user = new User(userName, router, userArray);*/
 
-        System.out.println(user.getKilowattHours());
-
+        Stadistics stadistics = new Stadistics(archiveUtil);
+        stadistics.saveTableFormatted(archiveUtil, "output.txt", 0.47);
 
         //MainProcess.Process(customersnames, consume, customers, average , finalprice);
 
