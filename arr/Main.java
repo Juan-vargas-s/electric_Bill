@@ -1,10 +1,12 @@
 import java.io.IOException;
 import java.util.Scanner;
+import java.nio.file.Paths;
 
 import Process.MainProcess;
 import Repositories.ArchiveUtil;
 import Repositories.Stadistics;
 import Repositories.User;
+import composable.storeArchive;
 import validate.*;
 
 
@@ -36,7 +38,9 @@ public class Main {
 
         
 
-        String router = "storage/txt/";
+        
+
+        String router = Paths.get("").toRealPath().toString()+"/storage/txt/";
 
         ArchiveUtil archiveUtil = new ArchiveUtil(router);
 

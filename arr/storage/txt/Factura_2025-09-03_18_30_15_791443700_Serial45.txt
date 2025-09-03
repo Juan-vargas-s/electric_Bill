@@ -1,0 +1,2 @@
+Cliente         Municipio         Kilowatts Consumidos        Total a Pagar
+Bob             Puerto Cabello       2298,0 kw/h               183,84 $  

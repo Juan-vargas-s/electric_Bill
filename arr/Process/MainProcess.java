@@ -2,7 +2,6 @@ package Process;
 import composable.mainStoreArchive;
 import helpers.consultMain;
 import validate.Validations;
-import java.io.IOException;
 
 import Repositories.ArchiveUtil;
 import Repositories.Stadistics;
@@ -21,10 +20,10 @@ public class MainProcess{
        if (!(option == 0) && !(option > 4)){
         if (option == 1) {
             
-           payElectricBill(user);
+           mainStoreArchive.store(user, archiveUtil);
         }
         else if(option == 2){
-            stadistics.saveTableFormatted(archiveUtil, "output", 0.47);
+            stadistics.saveTableFormatted(archiveUtil, "estaditico", 0.47);
         }
             
         else if (option == 3){
@@ -39,13 +38,12 @@ public class MainProcess{
     }
 
 
-    public static void payElectricBill(User user){
+    public static double payElectricBill(User user){
         String userName = user.getUserName();
         double kilowattHours = user.getKilowattHours();
         int  municipality = user.getOption();
-        System.out.println(municipality);
         double cost = Process.calculatePrice(kilowattHours, municipality);
-        System.out.println(cost);
+        return cost;
 
        /*  double cost = 0.0;
         Process.iniMatrix(customers);

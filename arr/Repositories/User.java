@@ -8,14 +8,16 @@ public class User {
     private UserValidation userValidation;
     private String userName;
     private String password;
+    private String municipality;
     private double kilowattHours;
     private int id;
     private int option;
     private String[] municipalities;
+    private ArchiveUtil archiveUtil;
 
-    public User( String userName, String router,String password,String[] userCredentials) throws IllegalArgumentException, FileNotFoundException{
+    public User(String userName, String router, String password, String[] userCredentials) throws IllegalArgumentException, FileNotFoundException {
 
-        if (userName == null){
+        if (userName == null) {
             throw new IllegalArgumentException("- Error-Instancia: Objeto incompleto. ");
         }
 
@@ -26,9 +28,10 @@ public class User {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        this.archiveUtil = new ArchiveUtil(router); 
         fillUserAndPassword();
         fillKilowattHours();
-        transformOption(new ArchiveUtil(router));
+        transformOption(this.archiveUtil);
     }
 
     //getters
@@ -43,6 +46,10 @@ public class User {
         return this.option;
     }
 
+    public String getMunicipality(){
+        return this.municipality;
+    }
+
     //setters
     public void setUserName(String Name){
         this.utilValSubName(Name);
@@ -51,6 +58,7 @@ public class User {
     public void setClientMoney(double clientMoney){
         this.utilValDouble(clientMoney);
     }
+
 
     //Comportamientos
     private void fillUserAndPassword(){
@@ -66,24 +74,26 @@ public class User {
         }
     }
 
-    private void fillKilowattHours(){
+    private void fillKilowattHours() {
         id = userValidation.getId();
         kilowattHours = 0.0;
         if (id < 0) {
             throw new IllegalArgumentException("ID de usuario no válido.");
         }
 
-        String folderRoute = "storage/txt/"; // Ajusta según tu estructura real
-        double[] kilowattHoursArray = null;
-        try {
-            kilowattHoursArray = readUserKilowatts(new ArchiveUtil(folderRoute), id);
-        } catch (FileNotFoundException e) {
-            System.out.println("Archivo no encontrado: " + e.getMessage());
+        double[] kilowattHoursArray = readUserKilowatts(this.archiveUtil, id);
+        if (kilowattHoursArray == null) {
+            System.out.println("No se pudo abrir el archivo: kilowatts.txt. Verifica la ruta y que el archivo exista.");
+            return;
         }
-        if (kilowattHoursArray != null) {
-            for(int i= 0; i < kilowattHoursArray.length; i++){
-                kilowattHours += kilowattHoursArray[i];
-            }
+        for (int i = 0; i < kilowattHoursArray.length; i++) {
+            kilowattHours += kilowattHoursArray[i];
+            
+        }
+        if (kilowattHours <= 0.0) {
+            this.kilowattHours = 0.0;
+            throw new IllegalArgumentException("El usuario no tiene consumos registrados.");
+            
         }
     }
 
@@ -108,8 +118,11 @@ public class User {
         for (int i = 0; i < total; i++) {
             municipalities[i] = temp[i];
         }
-        String municipalityname = municipalities[id];
-        return municipalityname ;
+        municipality = municipalities[id];
+        if(municipality == null || municipality.isEmpty()) {
+            throw new IllegalArgumentException("Municipio no encontrado para el usuario.");
+        }
+        return municipality ;
     }
 
     private void transformOption(ArchiveUtil archiveUtil){
@@ -117,7 +130,6 @@ public class User {
         if (municipality == null) {
             throw new IllegalArgumentException("Municipio no encontrado");
         }
-        System.out.println(municipality);
         String[] municipios = new String[]{"San Diego","Juan José Mora","Valencia","Puerto Cabello","Los Guayos"};
         for(int i = 0; i < municipios.length; i++){
             if(municipality.equals(municipios[i])){
