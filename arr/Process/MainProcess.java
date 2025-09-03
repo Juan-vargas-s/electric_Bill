@@ -3,13 +3,14 @@ import composable.mainStoreArchive;
 import helpers.consultMain;
 import validate.Validations;
 import java.io.IOException;
+
+import Repositories.User;
 public class MainProcess{
 
 
-    public static void Process(String customersnames,String consume[],double customers[][][],double average[][] ,double finalprice[]) {
+    public static void Process(User user) {
         int option = 0;
         String text = "";
-        double cost = 0.0;
 
         text = "escriba que acción quiere tomar: -pagar, -tecnico, -salir";
         System.out.println(text);
@@ -18,7 +19,7 @@ public class MainProcess{
        if (!(option == 0) && !(option > 4)){
         if (option == 1) {
             
-           payElectricBill( customersnames, consume , customers,  average);
+           payElectricBill(user);
         }
         else if(option == 2){
             RepairServices.callTecnician();
@@ -36,8 +37,15 @@ public class MainProcess{
     }
 
 
-    public static void payElectricBill(String customersnames,String consume[] ,double customers[][][],double average[][] ){
-        double cost = 0.0;
+    public static void payElectricBill(User user){
+        String userName = user.getUserName();
+        double kilowattHours = user.getKilowattHours();
+        int  municipality = user.getOption();
+        System.out.println(municipality);
+        double cost = Process.calculatePrice(kilowattHours, municipality);
+        System.out.println(cost);
+
+       /*  double cost = 0.0;
         Process.iniMatrix(customers);
         Process.iniAverage(average);
        // Process.initNames(customersnames);
@@ -55,6 +63,7 @@ public class MainProcess{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 
 

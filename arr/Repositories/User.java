@@ -10,15 +10,17 @@ public class User {
     private String password;
     private double kilowattHours;
     private int id;
+    private int option;
+    private String[] municipalities;
 
-    public User( String userName, String router, String[] userCredentials) throws IllegalArgumentException{
+    public User( String userName, String router,String password,String[] userCredentials) throws IllegalArgumentException, FileNotFoundException{
 
         if (userName == null){
             throw new IllegalArgumentException("- Error-Instancia: Objeto incompleto. ");
         }
 
         try {
-            this.userValidation = new UserValidation(userName, "access", router, userCredentials);
+            this.userValidation = new UserValidation(userName, password, router, userCredentials);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -26,6 +28,7 @@ public class User {
         }
         fillUserAndPassword();
         fillKilowattHours();
+        transformOption(new ArchiveUtil(router));
     }
 
     //getters
@@ -35,6 +38,9 @@ public class User {
 
     public double getKilowattHours(){
         return this.kilowattHours;
+    }
+    public int getOption(){
+        return this.option;
     }
 
     //setters
@@ -79,6 +85,46 @@ public class User {
                 kilowattHours += kilowattHoursArray[i];
             }
         }
+    }
+
+    private String readMunicipalities(ArchiveUtil archiveUtil) {
+        Scanner scanner = archiveUtil.getArchive("municipality.txt");
+        if (scanner == null) {
+            municipalities = new String[0];
+            return null;
+        }
+        int total = 0;
+        StringBuilder allMunicipalities = new StringBuilder();
+        while (scanner.hasNextLine()) {
+            String[] partes = scanner.nextLine().split(",");
+            total += partes.length;
+            for (String parte : partes) {
+                allMunicipalities.append(parte.trim()).append(",");
+            }
+        }
+        scanner.close();
+        municipalities = new String[total];
+        String[] temp = allMunicipalities.toString().split(",");
+        for (int i = 0; i < total; i++) {
+            municipalities[i] = temp[i];
+        }
+        String municipalityname = municipalities[id];
+        return municipalityname ;
+    }
+
+    private void transformOption(ArchiveUtil archiveUtil){
+        String municipality = readMunicipalities(archiveUtil);
+        if (municipality == null) {
+            throw new IllegalArgumentException("Municipio no encontrado");
+        }
+        System.out.println(municipality);
+        String[] municipios = new String[]{"SanDiego","JuanJoseMora","Valencia","PuertoCabello","LosGuayos"};
+        for(int i = 0; i < municipios.length; i++){
+            if(municipality.toLowerCase().trim().equals(municipios[i].toLowerCase().trim())){
+                option = i + 1;
+            }
+        }
+
     }
 
     //utilitarias

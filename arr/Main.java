@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.net.PasswordAuthentication;
 import java.util.Scanner;
 
 import Process.MainProcess;
@@ -49,24 +50,30 @@ public class Main {
         int elementsConsume = validate.Validations.countArchiveElements(archiveUtil, "kilowatts.txt");
         consume = new double[elementsConsume];
 
-        /*String text = "Ingrese su nombre de usuario : ";
+        String text = "Ingrese su nombre de usuario : ";
         System.out.println(text);
         String userName = enter.next();
+        text = "Ingrese su contraseña : ";
+        System.out.println(text);
+        String password = enter.next();
 
-        //userName = validate.Validations.valSubName(userName,text);
+        userName = validate.Validations.valSubName(userName,text);
+        validate.Validations.utilValSubName(password);
 
-        //User user = new User(userName, router, userArray);*/
+        User user = new User(userName, router,password, userArray);
 
-        Stadistics stadistics = new Stadistics(archiveUtil);
-        stadistics.saveTableFormatted(archiveUtil, "output", 0.47);
+        //Stadistics stadistics = new Stadistics(archiveUtil);
+        //stadistics.saveTableFormatted(archiveUtil, "output", 0.47);
 
-        //MainProcess.Process(customersnames, consume, customers, average , finalprice);
+        
+        MainProcess.Process(user);
 
         customersnames = null;
         average = null;
         customers = null;
         consume = null;
         finalprice = null;
+        userArray = null;
 
     }
 }

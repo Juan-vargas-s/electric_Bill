@@ -81,7 +81,7 @@ public class Process {
         }
     }
 
-    public static double calculatePrice(double[][][] customers, double  cost) {
+    /*public static double calculatePrice(double[][][] customers, double  cost) {
 
         double sum = 0.0;
         if (customers.length != 0) {
@@ -98,7 +98,7 @@ public class Process {
             cost = sum*cost_per_kw;
         }
         return cost;
-    }
+    }*/
 
    /* public static void hig_LowConsume(double[]cost, String[] customersnames, String[] consume) {
 
@@ -146,6 +146,31 @@ public class Process {
                 }
             }
         }
+    }
+
+    public static double calculatePrice(double kw, int municipality){
+        double price = 0.0;
+        switch (municipality) {
+            case 1:
+                price = kw * 0.12;
+                break;
+            case 2:
+                price = kw * 0.15;
+                break;
+            case 3:
+                price = kw * 0.10;
+                break;
+            case 4:
+                price = kw * 0.08;
+                break;
+            case 5:
+                price = kw * 0.05;
+                break;
+            default:
+                System.out.println("Opción no válida");
+                break;
+        }
+        return price;
     }
 
     

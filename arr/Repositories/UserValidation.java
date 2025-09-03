@@ -46,10 +46,6 @@ public class UserValidation {
             throw new IllegalArgumentException("Invalid password");
         }
 
-        if (id == -1) {
-            throw new IllegalArgumentException("Incorrect password");
-        }
-
         utilValSubName(password, false);
         if (password == null || password.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid password");

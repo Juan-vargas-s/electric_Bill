@@ -211,6 +211,31 @@ public class Validations {
         }
     }
 
+     public static void utilValSubName(String name) throws IllegalArgumentException {
+
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException(" [El nombre no puede ser nulo o vacio] ");
+       }
+
+            if(valPass(name));{
+
+            }
+        }
+
+
+        public static boolean valPass(String text) {
+        String limit = "!#$%/()=?¡¨*[]_";
+
+        for (int i = 0; i < text.length(); i++) {
+            for (int j = 0; j < limit.length(); j++) {
+                if (text.charAt(i) == limit.charAt(j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public static int countArchiveElements(ArchiveUtil archiveUtil, String archivo) {
     Scanner scanner = archiveUtil.getArchive(archivo);
     if (scanner == null) return 0;
