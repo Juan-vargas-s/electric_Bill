@@ -63,6 +63,22 @@ public class ArchiveUtil {
         }
     }
 
+    public void setCreateArchive(String content, String nameArchive, boolean bool, boolean option) {
+
+        try (BufferedWriter addArchive = new BufferedWriter(new FileWriter(this.router+nameArchive+".txt", option))) { // 'true' permite agregar al archivo existente
+            if (content.trim().isEmpty() || nameArchive.isEmpty()){
+                throw new NullPointerException(" EL contenido es requerido. ");
+            }
+
+            addArchive.write(content);  // Escribir en el archivo
+            if (bool){
+                addArchive.newLine(); // Agregar nueva línea opcional
+            }
+        } catch (IOException | NullPointerException e) {
+            System.out.println("- CreateOrWriteArchive-Error: " + e.getMessage());
+        }
+    }
+
     public String[] getDirectories() {
         try {
             File directories = new File(this.router);

@@ -79,7 +79,7 @@ public class Validations {
     public static int valOption(String text) {
         String option = "";
         Scanner scanner = new Scanner(System.in);
-        String[] verify = {"pagar", "tecnico","salir"};
+        String[] verify = {"pagar", "estadisticas","salir"};
 
         while (true) {
             option = scanner.nextLine().toLowerCase();

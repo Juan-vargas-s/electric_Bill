@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.net.PasswordAuthentication;
 import java.util.Scanner;
 
 import Process.MainProcess;
@@ -62,11 +61,11 @@ public class Main {
 
         User user = new User(userName, router,password, userArray);
 
-        //Stadistics stadistics = new Stadistics(archiveUtil);
-        //stadistics.saveTableFormatted(archiveUtil, "output", 0.47);
+        Stadistics stadistics = new Stadistics(archiveUtil);
+        
 
         
-        MainProcess.Process(user);
+        MainProcess.Process(user,stadistics,archiveUtil);
 
         customersnames = null;
         average = null;

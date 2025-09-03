@@ -114,7 +114,7 @@ public class Stadistics {
         // Encabezado
         String header = String.format("%-25s%-25s%-25s%-25s%n",
                 "Nombre del cliente", "Municipios", "total de Kilowatts", "total a pagar por kw/h");
-        archiveUtil.setCreateArchive(header, outputFile, false);
+        archiveUtil.setCreateArchive(header, outputFile, false, true);
 
         int n = Math.min(users.length, municipalities.length);
         double sumaTotal = 0.0;
@@ -139,7 +139,7 @@ public class Stadistics {
         String separador = "-----------------------------------------------------------------------------------------------------\n";
         archiveUtil.setCreateArchive(separador, outputFile, true);
 
-        // Personas por municipio (sin Map, solo usando el arreglo)
+        
         archiveUtil.setCreateArchive("personas por Municipio", outputFile, true);
 
         boolean[] contado = new boolean[municipalities.length];

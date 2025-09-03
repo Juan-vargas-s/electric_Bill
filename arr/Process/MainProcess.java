@@ -4,15 +4,17 @@ import helpers.consultMain;
 import validate.Validations;
 import java.io.IOException;
 
+import Repositories.ArchiveUtil;
+import Repositories.Stadistics;
 import Repositories.User;
 public class MainProcess{
 
 
-    public static void Process(User user) {
+    public static void Process(User user, Stadistics stadistics, ArchiveUtil archiveUtil) {
         int option = 0;
         String text = "";
 
-        text = "escriba que acción quiere tomar: -pagar, -tecnico, -salir";
+        text = "escriba que acción quiere tomar: -pagar, -estadisticas, -salir";
         System.out.println(text);
         option = Validations.valOption(text);
 
@@ -22,7 +24,7 @@ public class MainProcess{
            payElectricBill(user);
         }
         else if(option == 2){
-            RepairServices.callTecnician();
+            stadistics.saveTableFormatted(archiveUtil, "output", 0.47);
         }
             
         else if (option == 3){

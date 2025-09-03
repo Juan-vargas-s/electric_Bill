@@ -1,0 +1,35 @@
+Nombre del cliente       Municipios               total de Kilowatts       total a pagar por kw/h   
+Juan                     San Diego                2157,30                  1013,93                  
+
+Gabriela                 Puerto Cabello           2436,80                  1145,30                  
+
+Luis                     Valencia                 1891,50                  889,01                   
+
+admin                    Juan José Mora           2250,00                  1057,50                  
+
+root                     Los Guayos               2736,00                  1285,92                  
+
+testUser                 Valencia                 1860,00                  874,20                   
+
+Alice                    San Diego                2010,00                  944,70                   
+
+Bob                      Puerto Cabello           2298,00                  1080,06                  
+
+Charlie                  Juan José Mora           2187,60                  1028,17                  
+
+-----------------------------------------------------------------------------------------------------
+
+personas por Municipio
+San Diego:           2
+
+Puerto Cabello:      2
+
+Valencia:            2
+
+Juan José Mora:      2
+
+Los Guayos:          1
+
+
+Total a pagar: 9318,78
+

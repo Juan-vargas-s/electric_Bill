@@ -118,9 +118,9 @@ public class User {
             throw new IllegalArgumentException("Municipio no encontrado");
         }
         System.out.println(municipality);
-        String[] municipios = new String[]{"SanDiego","JuanJoseMora","Valencia","PuertoCabello","LosGuayos"};
+        String[] municipios = new String[]{"San Diego","Juan José Mora","Valencia","Puerto Cabello","Los Guayos"};
         for(int i = 0; i < municipios.length; i++){
-            if(municipality.toLowerCase().trim().equals(municipios[i].toLowerCase().trim())){
+            if(municipality.equals(municipios[i])){
                 option = i + 1;
             }
         }
