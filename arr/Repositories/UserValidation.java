@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 
 public class UserValidation {
 
-    private double id;
+    private int id;
     private String userName;
     private String password;
     private ArchiveUtil archiveUtil;
@@ -143,6 +143,9 @@ public class UserValidation {
 
     }
 
+
+    //Getters
+
     public String getUserName() {
         return this.userName;
     }
@@ -151,12 +154,22 @@ public class UserValidation {
         return this.password;
     }
 
+    public int getId() {
+        return this.id;
+    }
+
+
+    //Setters
     public void setUserName(String userName){
         this.userName = userName;
     }
 
     public void setPassword(String password){
         this.password = password;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

@@ -57,6 +57,8 @@ public class Main {
         System.out.println(userName);
         User user = new User(userName, router, userArray);
 
+        System.out.println(user.getKilowattHours());
+
 
         //MainProcess.Process(customersnames, consume, customers, average , finalprice);
 

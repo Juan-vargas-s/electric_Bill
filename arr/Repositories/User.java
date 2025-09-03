@@ -8,23 +8,24 @@ public class User {
     private UserValidation userValidation;
     private String userName;
     private String password;
-    private double clientMoney;
-    private double id;
+    private double kilowattHours;
+    private int id;
 
-    public User( String userName, String router, String[] userCredentials, double[] userDigitData) throws IllegalArgumentException{
+    public User( String userName, String router, String[] userCredentials) throws IllegalArgumentException{
 
         if (userName == null){
             throw new IllegalArgumentException("- Error-Instancia: Objeto incompleto. ");
         }
 
         try {
-            this.userValidation = new UserValidation(this.userName, this.password, router, userCredentials);
+            this.userValidation = new UserValidation(userName, "access", router, userCredentials);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         fillUserAndPassword();
+        fillKilowattHours();
     }
 
     //getters
@@ -32,8 +33,8 @@ public class User {
         return this.userName;
     }
 
-    public double getClientMoney(){
-        return this.clientMoney;
+    public double getKilowattHours(){
+        return this.kilowattHours;
     }
 
     //setters
@@ -47,23 +48,37 @@ public class User {
 
     //Comportamientos
     private void fillUserAndPassword(){
-       if (userValidation.validateUser()){
+        if (userValidation.validateUser()) {
             this.userName = userValidation.getUserName();
-       }
-       else {
-        throw new IllegalArgumentException("Usuario no encontrado");
-       }
-
-       if (userValidation.validatePassword()) {
-          this.password = userValidation.getPassword();
-       }
-       else{
-        throw new IllegalArgumentException("Contraseña incorrecta");
-       }
+            if (userValidation.validatePassword()) {
+                this.password = userValidation.getPassword();
+            } else {
+                throw new IllegalArgumentException("Contraseña incorrecta");
+            }
+        } else {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
     }
 
-    private void fillKilowattHours(double kilowattHours) throws IllegalArgumentException {
-        
+    private void fillKilowattHours(){
+        id = userValidation.getId();
+        kilowattHours = 0.0;
+        if (id < 0) {
+            throw new IllegalArgumentException("ID de usuario no válido.");
+        }
+
+        String folderRoute = "storage/txt/"; // Ajusta según tu estructura real
+        double[] kilowattHoursArray = null;
+        try {
+            kilowattHoursArray = readUserKilowatts(new ArchiveUtil(folderRoute), id);
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado: " + e.getMessage());
+        }
+        if (kilowattHoursArray != null) {
+            for(int i= 0; i < kilowattHoursArray.length; i++){
+                kilowattHours += kilowattHoursArray[i];
+            }
+        }
     }
 
     //utilitarias
@@ -74,7 +89,7 @@ public class User {
             throw new IllegalArgumentException("Promedio fuera de rango.");
         }
 
-        this.clientMoney = number;
+        this.kilowattHours = number;
 
     }
 
@@ -106,26 +121,6 @@ public class User {
         return true;
     }
 
-    private void readAndSeparateUsersAndPasswords(ArchiveUtil archiveUtil, String archiveName, String[] userCredentials) {
-        Scanner scanner = archiveUtil.getArchive(archiveName);
-        if (scanner == null) {
-            System.out.println("No se pudo abrir el archivo: " + archiveName);
-            return;
-        }
-
-        int index = 0;
-        while (scanner.hasNextLine() && index < userCredentials.length) {
-            String linea = scanner.nextLine();
-            Scanner scLinea = new Scanner(linea);
-            scLinea.useDelimiter(",");
-            while (scLinea.hasNext() && index < userCredentials.length) {
-                userCredentials[index++] = scLinea.next().trim();
-            }
-            scLinea.close();
-        }
-        scanner.close();
-    }
-
     public double[] readUserKilowatts(ArchiveUtil archiveUtil, int userId) {
         Scanner scanner = archiveUtil.getArchive("kilowatts.txt");
         if (scanner == null) {
@@ -144,10 +139,10 @@ public class User {
                     try {
                         consumos[i] = Double.parseDouble(partes[i].trim());
                     } catch (NumberFormatException e) {
-                        consumos[i] = 0.0; // O maneja el error como prefieras
+                        consumos[i] = 0.0; 
                     }
                 }
-                break; // Ya encontramos la línea del usuario
+                break; 
             }
             currentLine++;
         }
